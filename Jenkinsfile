@@ -19,8 +19,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build -t ${ECR_REPO_NAME}${IMAGE_TAG} -f ${env.WORKSPACE}/ecs/src/appointment/Dockerfile ."
-                    sh "docker build -t ${ECR_REPO_NAME}${IMAGE_TAG} -f ${env.WORKSPACE}/ecs/src/patient/Dockerfile ."
+                    sh "sudo docker build -t ${ECR_REPO_NAME}${IMAGE_TAG} -f ${env.WORKSPACE}/ecs/src/appointment/Dockerfile ."
+                    sh "sudo docker build -t ${ECR_REPO_NAME}${IMAGE_TAG} -f ${env.WORKSPACE}/ecs/src/patient/Dockerfile ."
                 }
 
             }
@@ -29,8 +29,8 @@ pipeline {
         stage('Tag Docker Image') {
             steps {
                 script {
-                   sh "docker tag ${ECR_REPO_NAME}-appointment:${IMAGE_TAG} ${ECR_URI}/${ECR_REPO_NAME}-appointment:${IMAGE_TAG}"
-                   sh "docker tag ${ECR_REPO_NAME}-patient:${IMAGE_TAG} ${ECR_URI}/${ECR_REPO_NAME}-patient:${IMAGE_TAG}"
+                   sh "sudo docker tag ${ECR_REPO_NAME}-appointment:${IMAGE_TAG} ${ECR_URI}/${ECR_REPO_NAME}-appointment:${IMAGE_TAG}"
+                   sh "sudo docker tag ${ECR_REPO_NAME}-patient:${IMAGE_TAG} ${ECR_URI}/${ECR_REPO_NAME}-patient:${IMAGE_TAG}"
                 }
             }
         }
@@ -40,7 +40,7 @@ pipeline {
                 script {
                     sh """
                         aws ecr get-login-password --region ${AWS_REGION} | \
-                        docker login --username AWS --password-stdin ${ECR_URI}
+                        sudo docker login --username AWS --password-stdin ${ECR_URI}
                     """
                 }
             }
@@ -49,8 +49,8 @@ pipeline {
         stage('Push to ECR') {
             steps {
                 script {   
-                sh "docker push ${ECR_URI}/${ECR_REPO_NAME}-appointment:${IMAGE_TAG}"
-                sh "docker push ${ECR_URI}/${ECR_REPO_NAME}-patient:${IMAGE_TAG}"
+                sh "sudo docker push ${ECR_URI}/${ECR_REPO_NAME}-appointment:${IMAGE_TAG}"
+                sh "sudo docker push ${ECR_URI}/${ECR_REPO_NAME}-patient:${IMAGE_TAG}"
                 }
             }
         }
