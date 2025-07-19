@@ -29,8 +29,8 @@ pipeline {
         stage('Tag Docker Image') {
             steps {
                 script {
-                   sh "docker tag ${ECR_REPO_NAME}-appointment:${IMAGE_TAG} ${ECR_URI}/${ECR_REPO_NAME}:appointment-${IMAGE_TAG}"
-                   sh "docker tag ${ECR_REPO_NAME}-patient:${IMAGE_TAG} ${ECR_URI}/${ECR_REPO_NAME}:patient-${IMAGE_TAG}"
+                   sh "docker tag ${ECR_REPO_NAME}:appointment-${IMAGE_TAG} ${ECR_URI}/${ECR_REPO_NAME}:appointment-${IMAGE_TAG}"
+                   sh "docker tag ${ECR_REPO_NAME}:patient-${IMAGE_TAG} ${ECR_URI}/${ECR_REPO_NAME}:patient-${IMAGE_TAG}"
                 }
             }
         }
