@@ -3,8 +3,6 @@ FROM node:24
 WORKDIR /app
 
 COPY . /app
- 
-COPY patient-service.js .
 
 RUN npm install
 
