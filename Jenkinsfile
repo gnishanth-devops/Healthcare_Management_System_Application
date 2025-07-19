@@ -52,6 +52,15 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to ecs'){
+            steps{
+                script{
+                    sh "terraform init"
+                    sh "terraform plan"
+                    sh "terraform apply -auto-approve"
+                }
+            }
+        }
     }
 
     post {
