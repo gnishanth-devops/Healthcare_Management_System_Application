@@ -48,8 +48,8 @@ pipeline {
         stage('Push to ECR') {
             steps {
                 script {   
-                sh "docker push ${ECR_URI}:patient-${IMAGE_TAG}"
-                sh "docker push ${ECR_URI}:appointment-${IMAGE_TAG}"
+                sh "docker push ${ECR_URI}/${ECR_REPO_NAME}:appointment-${IMAGE_TAG}"
+                sh "docker push ${ECR_URI}/${ECR_REPO_NAME}:patient-${IMAGE_TAG}"
                 }
             }
         }
