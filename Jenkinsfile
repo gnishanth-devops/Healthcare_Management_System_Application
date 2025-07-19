@@ -19,8 +19,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build -t ${ECR_REPO_NAME}-appointment:${IMAGE_TAG} -f ${env.WORKSPACE}/src/appointment/Dockerfile ."
-                    sh "docker build -t ${ECR_REPO_NAME}-patient:${IMAGE_TAG} -f ${env.WORKSPACE}/src/patient/Dockerfile ."
+                    sh "docker build -t ${ECR_REPO_NAME}:appointment-${IMAGE_TAG} -f ${env.WORKSPACE}/src/appointment/Dockerfile ."
+                    sh "docker build -t ${ECR_REPO_NAME}:patient-${IMAGE_TAG} -f ${env.WORKSPACE}/src/patient/Dockerfile ."
                 }
 
             }
@@ -29,8 +29,8 @@ pipeline {
         stage('Tag Docker Image') {
             steps {
                 script {
-                   sh "docker tag ${ECR_REPO_NAME}-appointment:${IMAGE_TAG} ${ECR_URI}/${ECR_REPO_NAME}-appointment:${IMAGE_TAG}"
-                   sh "docker tag ${ECR_REPO_NAME}-patient:${IMAGE_TAG} ${ECR_URI}/${ECR_REPO_NAME}-patient:${IMAGE_TAG}"
+                   sh "docker tag ${ECR_REPO_NAME}-appointment:${IMAGE_TAG} ${ECR_URI}/${ECR_REPO_NAME}:appointment-${IMAGE_TAG}"
+                   sh "docker tag ${ECR_REPO_NAME}-patient:${IMAGE_TAG} ${ECR_URI}/${ECR_REPO_NAME}:patient-${IMAGE_TAG}"
                 }
             }
         }
@@ -48,8 +48,8 @@ pipeline {
         stage('Push to ECR') {
             steps {
                 script {   
-                sh "docker push ${ECR_URI}/${ECR_REPO_NAME}:${IMAGE_TAG}"
-                sh "docker push ${ECR_URI}/${ECR_REPO_NAME}:${IMAGE_TAG}"
+                sh "docker push ${ECR_URI}/${ECR_REPO_NAME}:patient-${IMAGE_TAG}"
+                sh "docker push ${ECR_URI}/${ECR_REPO_NAME}:appointment-${IMAGE_TAG}"
                 }
             }
         }
@@ -57,7 +57,9 @@ pipeline {
 
     post {
         success {
-            echo "Image pushed successfully: ${ECR_URI}:${IMAGE_TAG}"
+            echo "Image pushed successfully: ${ECR_URI}:patient-${IMAGE_TAG}"
+            echo "Image pushed successfully: ${ECR_URI}:appointment-${IMAGE_TAG}"
+
         }
         failure {
             echo "Failed to build or push Docker image"
