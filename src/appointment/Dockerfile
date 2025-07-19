@@ -2,7 +2,7 @@ FROM node:24
 
 WORKDIR /app
 
-COPY package.json /app
+COPY src/appointment/package.json /app
 
 COPY src/appointment/appointment-service.js /app
 RUN npm install

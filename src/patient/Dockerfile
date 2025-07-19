@@ -2,7 +2,7 @@ FROM node:24
 
 WORKDIR /app
 
-COPY package.json /app
+COPY src/patient/package.json /app
 
 COPY src/patient/patient-service.js /app
 RUN npm install
