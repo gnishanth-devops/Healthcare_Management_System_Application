@@ -19,8 +19,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build -t ${ECR_REPO_NAME}${IMAGE_TAG} -f ${env.WORKSPACE}/src/appointment/Dockerfile .
-                    sh "docker build("-t ${ECR_REPO_NAME}:${IMAGE_TAG} -f ${env.WORKSPACE}/src/patient/Dockerfile .
+                    sh "docker build -t ${ECR_REPO_NAME}${IMAGE_TAG} -f ${env.WORKSPACE}/src/appointment/Dockerfile ."
+                    sh "docker build("-t ${ECR_REPO_NAME}:${IMAGE_TAG} -f ${env.WORKSPACE}/src/patient/Dockerfile ."
                 }
 
             }
