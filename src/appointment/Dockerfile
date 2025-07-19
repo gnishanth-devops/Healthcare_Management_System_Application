@@ -2,9 +2,7 @@ FROM node:24
 
 WORKDIR /app
 
-COPY package.json .
-
-COPY appointment-service.js .
+COPY . /app
 
 RUN npm install
 
