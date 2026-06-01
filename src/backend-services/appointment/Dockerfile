@@ -1,16 +1,25 @@
-FROM node:24
+# Stage 1 - Build Dependencies
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY src/appointment/package.json /app
+COPY package*.json ./
 
-COPY src/appointment/appointment-service.js /app
-RUN npm install
+RUN npm ci --omit=dev
+
+COPY . .
+
+# Stage 2 - Runtime Image
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app /app
 
 USER node
 
 EXPOSE 3001
 
-ENTRYPOINT [ "node" ]
+ENTRYPOINT ["node"]
 
 CMD ["appointment-service.js"]
