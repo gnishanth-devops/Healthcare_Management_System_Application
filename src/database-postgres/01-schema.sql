@@ -1,18 +1,21 @@
 CREATE TABLE patients (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    age INTEGER,
-    gender VARCHAR(10),
-    phone VARCHAR(20),
+    age INTEGER NOT NULL,
+    condition VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE appointments (
     id SERIAL PRIMARY KEY,
-    patient_id INTEGER REFERENCES patients(id),
+    patient_id INTEGER NOT NULL,
     appointment_date DATE NOT NULL,
     appointment_time TIME NOT NULL,
     doctor VARCHAR(100) NOT NULL,
-    status VARCHAR(20) DEFAULT 'Scheduled',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_patient
+      FOREIGN KEY(patient_id)
+      REFERENCES patients(id)
+      ON DELETE CASCADE
 );
